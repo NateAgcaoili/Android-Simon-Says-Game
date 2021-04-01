@@ -2,15 +2,21 @@ package com.georgiasouthern.simonsays;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.Window;
+import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
-    public boolean[] decision = new boolean[10];
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
         setContentView(R.layout.activity_main);
+    }
+
+    public void playClick(View view) {
+        Intent intent = new Intent(this, GameActivity.class);
+        startActivity(intent);
     }
 }

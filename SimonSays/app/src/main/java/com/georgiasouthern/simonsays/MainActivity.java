@@ -28,6 +28,9 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         setContentView(R.layout.activity_main);
 
+        currentRound = 1;
+        running = true;
+        playerTurn = false;
         gameButtons = new Button[]{
                 findViewById(R.id.butOne), findViewById(R.id.butTwo), findViewById(R.id.butThree),
                 findViewById(R.id.butFour), findViewById(R.id.butFive), findViewById(R.id.butSix),
@@ -37,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
     public void playClick(View view) {
 //        Intent intent = new Intent(this, GameActivity.class);
 //        startActivity(intent);
-        startGame();
+        openGameScreen();
     }
 
     public void showButtons() {
@@ -46,15 +49,23 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void startGame() {
+    public void openGameScreen() {
         showButtons();
         findViewById(R.id.playButton).setVisibility((View.GONE));
         findViewById(R.id.scoresButton).setVisibility((View.GONE));
         findViewById(R.id.aboutButton).setVisibility((View.GONE));
         setActivityBackground(getResources().getDrawable(R.drawable.game_bg));
-        addToSequence();
-        new GameAsyncTask().execute();
+        running = true;
+    }
 
+    public void playGame() {
+        if (!running) {
+
+        }
+    }
+
+    public void gameOver() {
+        
     }
 
     public void setActivityBackground(Drawable background) {
@@ -71,7 +82,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void gameTask(View view) {new GameAsyncTask().execute();}
     public class GameAsyncTask extends AsyncTask<Integer, Integer, Double> {
 
         @Override

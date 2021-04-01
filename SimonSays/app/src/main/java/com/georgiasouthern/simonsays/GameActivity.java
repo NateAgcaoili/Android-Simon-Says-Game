@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 
 import java.util.ArrayList;
@@ -31,14 +32,13 @@ public class GameActivity extends AppCompatActivity {
                 findViewById(R.id.butOne), findViewById(R.id.butTwo), findViewById(R.id.butThree),
                 findViewById(R.id.butFour), findViewById(R.id.butFive), findViewById(R.id.butSix),
                 findViewById(R.id.butSeven), findViewById(R.id.butEight), findViewById(R.id.butNine)};
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
         addToSequence();
-        try {
-            displaySequence();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-
+        showButtons();
     }
 
     @Override
@@ -55,7 +55,6 @@ public class GameActivity extends AppCompatActivity {
     public void displaySequence() throws InterruptedException {
         for (int i = 0; i < simonSequence.size(); i++) {
             buttons[simonSequence.get(i)].setBackgroundColor(Color.GREEN);
-            TimeUnit.SECONDS.sleep(10);
             buttons[simonSequence.get(i)].setBackgroundColor(Color.BLUE);
         }
     }
@@ -63,6 +62,12 @@ public class GameActivity extends AppCompatActivity {
     public void playGame(boolean isPlayersTurn) {
         if (!running) {
 
+        }
+    }
+
+    public void showButtons() {
+        for (int i = 0; i < 9; i++) {
+            buttons[i].setVisibility(View.VISIBLE);
         }
     }
 }

@@ -165,13 +165,30 @@
         app:layout_constraintVertical_bias="0.65" />
 
     <TextView
-        android:id="@+id/textView"
-        android:layout_width="140dp"
-        android:layout_height="51dp"
+        android:id="@+id/roundDisplay"
+        android:layout_width="265dp"
+        android:layout_height="47dp"
         android:text="Round 1"
         android:textColor="@color/white"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.39"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.245" />
+
+    <TextView
+        android:id="@+id/turnDisplay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Simon's turn"
+        android:textColor="@color/white"
         android:textSize="36sp"
-        tools:layout_editor_absoluteX="64dp"
-        tools:layout_editor_absoluteY="154dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.127" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

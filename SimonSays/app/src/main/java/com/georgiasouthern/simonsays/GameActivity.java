@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -24,6 +25,8 @@ public class GameActivity extends AppCompatActivity {
     int green;
     boolean running;
     boolean playerTurn;
+    TextView roundDisplay;
+    TextView message;
     Button[] gameButtons;
     Drawable[] backgrounds;
     MediaPlayer[] sounds;
@@ -42,6 +45,8 @@ public class GameActivity extends AppCompatActivity {
         green = getResources().getColor(R.color.theme_green);
         running = true;
         playerTurn = false;
+        roundDisplay = findViewById(R.id.roundDisplay);
+        message = findViewById(R.id.turnDisplay);
         gameButtons = new Button[]{
                 findViewById(R.id.butOne), findViewById(R.id.butTwo), findViewById(R.id.butThree),
                 findViewById(R.id.butFour), findViewById(R.id.butFive), findViewById(R.id.butSix),
@@ -80,9 +85,15 @@ public class GameActivity extends AppCompatActivity {
         if (!running) {
             gameOver();
         } else if (!playerTurn) {
+            roundDisplay.setText("Round " + currentRound);
             new DisplaySequence().execute();
         } else if (playerTurn) {
             if (playerIndex == currentRound) {
+                playerTurn = false;
+                toggleButtons();
+                playerIndex = 0;
+                currentRound++;
+                message.setText("Correct!");
                 new RoundComplete().execute();
             }
         }
@@ -105,6 +116,8 @@ public class GameActivity extends AppCompatActivity {
         for (int i = 0; i < 9; i++) {
             gameButtons[i].setBackgroundColor(red);
         }
+        message.setVisibility(View.INVISIBLE);
+        roundDisplay.setVisibility(View.INVISIBLE);
         toggleButtons();
         setActivityBackground(backgrounds[1]);
     }
@@ -138,10 +151,7 @@ public class GameActivity extends AppCompatActivity {
         }
 
         protected void onPostExecute(Double result) {
-            playerIndex = 0;
-            playerTurn = false;
-            currentRound++;
-            toggleButtons();
+            message.setText("Simon's turn");
             playGame();
         }
     }
@@ -167,6 +177,7 @@ public class GameActivity extends AppCompatActivity {
 
         protected void onPostExecute(Double result) {
             playerTurn = true;
+            message.setText("Your turn");
             toggleButtons();
             playGame();
         }

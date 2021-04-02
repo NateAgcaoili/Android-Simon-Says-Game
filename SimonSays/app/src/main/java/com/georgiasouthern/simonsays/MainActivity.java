@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
     boolean playerTurn;
     Button[] gameButtons;
     Drawable[] backgrounds;
-    ArrayList<Integer> simonSequence = new ArrayList<Integer>();
+    ArrayList<Integer> simonSequence = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,9 +48,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void playClick(View view) {
-//        Intent intent = new Intent(this, GameActivity.class);
-//        startActivity(intent);
-        openGameScreen();
+        Intent intent = new Intent(this, GameActivity.class);
+        startActivity(intent);
+        //openGameScreen();
     }
 
     public void showButtons() {
@@ -103,11 +103,10 @@ public class MainActivity extends AppCompatActivity {
         Button buttonClicked = findViewById(view.getId());
         if (gameButtons[simonSequence.get(playerIndex)] == buttonClicked) {
             playerIndex++;
-            playGame();
         } else {
             running = false;
-            playGame();
         }
+        playGame();
     }
 
     public void gameOver() {
@@ -134,8 +133,9 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected Double doInBackground(Integer... integers) {
             for (int i = 0; i < simonSequence.size(); i++) {
+                SystemClock.sleep(750);
                 publishProgress(i, Color.WHITE);
-                SystemClock.sleep(1000);
+                SystemClock.sleep(750);
                 publishProgress(i, blueColor);
             }
             return null;

@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -18,12 +19,14 @@ public class GameActivity extends AppCompatActivity {
 
     int currentRound;
     int playerIndex;
-    int blueColor;
-    int redColor;
+    int blue;
+    int red;
+    int green;
     boolean running;
     boolean playerTurn;
     Button[] gameButtons;
     Drawable[] backgrounds;
+    MediaPlayer[] sounds;
     ArrayList<Integer> simonSequence = new ArrayList<>();
 
     @Override
@@ -34,8 +37,9 @@ public class GameActivity extends AppCompatActivity {
 
         currentRound = 1;
         playerIndex = 0;
-        blueColor = getResources().getColor(R.color.theme_blue);
-        redColor = getResources().getColor(R.color.theme_red);
+        blue = getResources().getColor(R.color.theme_blue);
+        red = getResources().getColor(R.color.theme_red);
+        green = getResources().getColor(R.color.theme_green);
         running = true;
         playerTurn = false;
         gameButtons = new Button[]{
@@ -43,8 +47,14 @@ public class GameActivity extends AppCompatActivity {
                 findViewById(R.id.butFour), findViewById(R.id.butFive), findViewById(R.id.butSix),
                 findViewById(R.id.butSeven), findViewById(R.id.butEight), findViewById(R.id.butNine)};
         backgrounds = new Drawable[]{
-                getResources().getDrawable(R.drawable.title_bg),  getResources().getDrawable(R.drawable.game_bg),
-                getResources().getDrawable(R.drawable.game_over_bg)};
+                getResources().getDrawable(R.drawable.game_bg),  getResources().getDrawable(R.drawable.game_over_bg),
+                getResources().getDrawable(R.drawable.round_complete_bg)};
+        sounds = new MediaPlayer[]{
+                MediaPlayer.create(this, R.raw.button_one), MediaPlayer.create(this, R.raw.button_two),
+                MediaPlayer.create(this, R.raw.button_three), MediaPlayer.create(this, R.raw.button_four),
+                MediaPlayer.create(this, R.raw.button_five), MediaPlayer.create(this, R.raw.button_six),
+                MediaPlayer.create(this, R.raw.button_seven), MediaPlayer.create(this, R.raw.button_eight),
+                MediaPlayer.create(this, R.raw.button_nine), MediaPlayer.create(this, R.raw.game_over)};
         playGame();
     }
 
@@ -54,7 +64,7 @@ public class GameActivity extends AppCompatActivity {
     }
 
     public void toggleButtons() {
-        if (playerTurn){
+        if (playerTurn) {
             for (int i = 0; i < 9; i++) {
                 gameButtons[i].setEnabled(true);
             }
@@ -70,15 +80,10 @@ public class GameActivity extends AppCompatActivity {
         if (!running) {
             gameOver();
         } else if (!playerTurn) {
-            addToSequence();
             new DisplaySequence().execute();
         } else if (playerTurn) {
             if (playerIndex == currentRound) {
-                currentRound++;
-                playerIndex = 0;
-                playerTurn = false;
-                toggleButtons();
-                playGame();
+                new RoundComplete().execute();
             }
         }
     }
@@ -86,8 +91,10 @@ public class GameActivity extends AppCompatActivity {
     public void gameButtonClick(View view) {
         Button buttonClicked = findViewById(view.getId());
         if (gameButtons[simonSequence.get(playerIndex)] == buttonClicked) {
+            sounds[simonSequence.get(playerIndex)].start();
             playerIndex++;
         } else {
+            sounds[9].start();
             running = false;
         }
         playGame();
@@ -96,10 +103,10 @@ public class GameActivity extends AppCompatActivity {
     public void gameOver() {
         playerTurn = false;
         for (int i = 0; i < 9; i++) {
-            gameButtons[i].setBackgroundColor(redColor);
+            gameButtons[i].setBackgroundColor(red);
         }
         toggleButtons();
-        setActivityBackground(backgrounds[2]);
+        setActivityBackground(backgrounds[1]);
     }
 
     public void setActivityBackground(Drawable background) {
@@ -108,24 +115,53 @@ public class GameActivity extends AppCompatActivity {
 
     public void addToSequence() {
         Random rand = new Random();
-        int newInt = rand.nextInt(8);
+        int newInt = rand.nextInt(9);
         simonSequence.add(newInt);
+    }
+
+    public class RoundComplete extends AsyncTask<Integer, Integer, Double> {
+
+        @Override
+        protected Double doInBackground(Integer... integers) {
+            publishProgress(2, green);
+            SystemClock.sleep(1000);
+            publishProgress(0, blue);
+            SystemClock.sleep(500);
+            return null;
+        }
+
+        protected void onProgressUpdate(Integer...params) {
+            for (int i = 0; i < 9; i++) {
+                setActivityBackground(backgrounds[params[0]]);
+                gameButtons[i].setBackgroundColor(params[1]);
+            }
+        }
+
+        protected void onPostExecute(Double result) {
+            playerIndex = 0;
+            playerTurn = false;
+            currentRound++;
+            toggleButtons();
+            playGame();
+        }
     }
 
     public class DisplaySequence extends AsyncTask<Integer, Integer, Double> {
 
         @Override
         protected Double doInBackground(Integer... integers) {
+            addToSequence();
             for (int i = 0; i < simonSequence.size(); i++) {
                 SystemClock.sleep(500);
                 publishProgress(i, Color.WHITE);
                 SystemClock.sleep(500);
-                publishProgress(i, blueColor);
+                publishProgress(i, blue);
             }
             return null;
         }
 
         protected void onProgressUpdate(Integer...params) {
+            sounds[simonSequence.get(params[0])].start();
             gameButtons[simonSequence.get(params[0])].setBackgroundColor(params[1]);
         }
 

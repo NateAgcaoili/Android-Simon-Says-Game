@@ -2,6 +2,7 @@ package com.georgiasouthern.simonsays;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
@@ -10,6 +11,7 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -27,6 +29,8 @@ public class GameActivity extends AppCompatActivity {
     boolean playerTurn;
     TextView roundDisplay;
     TextView message;
+    ImageButton playAgain;
+    ImageButton mainMenu;
     Button[] gameButtons;
     Drawable[] backgrounds;
     MediaPlayer[] sounds;
@@ -47,6 +51,8 @@ public class GameActivity extends AppCompatActivity {
         playerTurn = false;
         roundDisplay = findViewById(R.id.roundDisplay);
         message = findViewById(R.id.turnDisplay);
+        playAgain = findViewById(R.id.playAgainButton);
+        mainMenu = findViewById(R.id.mainMenuButton);
         gameButtons = new Button[]{
                 findViewById(R.id.butOne), findViewById(R.id.butTwo), findViewById(R.id.butThree),
                 findViewById(R.id.butFour), findViewById(R.id.butFive), findViewById(R.id.butSix),
@@ -118,6 +124,8 @@ public class GameActivity extends AppCompatActivity {
         }
         message.setVisibility(View.INVISIBLE);
         roundDisplay.setVisibility(View.INVISIBLE);
+        playAgain.setVisibility(ImageButton.VISIBLE);
+        mainMenu.setVisibility(ImageButton.VISIBLE);
         toggleButtons();
         setActivityBackground(backgrounds[1]);
     }
@@ -130,6 +138,16 @@ public class GameActivity extends AppCompatActivity {
         Random rand = new Random();
         int newInt = rand.nextInt(9);
         simonSequence.add(newInt);
+    }
+
+    public void playClick(View view) {
+        Intent intent = new Intent(this, GameActivity.class);
+        startActivity(intent);
+    }
+
+    public void menuClick(View view) {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 
     public class RoundComplete extends AsyncTask<Integer, Integer, Double> {

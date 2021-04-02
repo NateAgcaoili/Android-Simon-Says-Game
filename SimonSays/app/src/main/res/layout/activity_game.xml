@@ -191,4 +191,38 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.127" />
 
+    <ImageButton
+        android:id="@+id/playAgainButton"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="304dp"
+        android:layout_height="90dp"
+        android:onClick="playClick"
+        android:padding="2dp"
+        android:scaleType="centerInside"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.831"
+        app:srcCompat="@drawable/play_again_btn" />
+
+    <ImageButton
+        android:id="@+id/mainMenuButton"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="304dp"
+        android:layout_height="90dp"
+        android:onClick="menuClick"
+        android:padding="2dp"
+        android:scaleType="centerInside"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.975"
+        app:srcCompat="@drawable/menu_btn" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

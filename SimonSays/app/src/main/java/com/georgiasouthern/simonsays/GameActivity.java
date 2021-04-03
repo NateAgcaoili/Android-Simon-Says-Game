@@ -2,13 +2,17 @@ package com.georgiasouthern.simonsays;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -16,7 +20,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
+
 
 public class GameActivity extends AppCompatActivity {
 
@@ -35,6 +39,7 @@ public class GameActivity extends AppCompatActivity {
     Drawable[] backgrounds;
     MediaPlayer[] sounds;
     ArrayList<Integer> simonSequence = new ArrayList<>();
+    DBHelper helper = new DBHelper(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +70,8 @@ public class GameActivity extends AppCompatActivity {
                 MediaPlayer.create(this, R.raw.button_three), MediaPlayer.create(this, R.raw.button_four),
                 MediaPlayer.create(this, R.raw.button_five), MediaPlayer.create(this, R.raw.button_six),
                 MediaPlayer.create(this, R.raw.button_seven), MediaPlayer.create(this, R.raw.button_eight),
-                MediaPlayer.create(this, R.raw.button_nine), MediaPlayer.create(this, R.raw.game_over)};
+                MediaPlayer.create(this, R.raw.button_nine), MediaPlayer.create(this, R.raw.round_complete),
+                MediaPlayer.create(this, R.raw.game_over)};
         playGame();
     }
 
@@ -111,7 +117,7 @@ public class GameActivity extends AppCompatActivity {
             sounds[simonSequence.get(playerIndex)].start();
             playerIndex++;
         } else {
-            sounds[9].start();
+            sounds[10].start();
             running = false;
         }
         playGame();
@@ -123,9 +129,12 @@ public class GameActivity extends AppCompatActivity {
             gameButtons[i].setBackgroundColor(red);
         }
         message.setVisibility(View.INVISIBLE);
-        roundDisplay.setVisibility(View.INVISIBLE);
+        //roundDisplay.setVisibility(View.INVISIBLE);
+        roundDisplay.setGravity(Gravity.CENTER);
+        //roundDisplay.setText("Score: " + currentRound);
         playAgain.setVisibility(ImageButton.VISIBLE);
         mainMenu.setVisibility(ImageButton.VISIBLE);
+        updateScores();
         toggleButtons();
         setActivityBackground(backgrounds[1]);
     }
@@ -150,10 +159,37 @@ public class GameActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void updateScores() {
+        SQLiteDatabase dbWrite = helper.getWritableDatabase();
+        SQLiteDatabase dbRead = helper.getReadableDatabase();
+        ContentValues highScoreRow = new ContentValues();
+        highScoreRow.put("id", "highscore");
+        highScoreRow.put("val", Integer.toString(currentRound));
+        ContentValues lastScoreRow = new ContentValues();
+        lastScoreRow.put("id", "lastscore");
+        lastScoreRow.put("val", Integer.toString(currentRound));
+        Cursor highScoreCursor = dbRead.rawQuery("select * from scorestable where id=?", new String[]{"highscore"});
+        Cursor lastScoreCursor = dbRead.rawQuery("select * from scorestable where id=?", new String[]{"lastscore"});
+        if (highScoreCursor.moveToFirst()) {
+            if (Integer.parseInt(highScoreCursor.getString(1)) < currentRound) {
+                dbWrite.update("scorestable", highScoreRow, "id=?", new String[]{"highscore"});
+            }
+        } else {
+            dbWrite.insert("scorestable", null, highScoreRow);
+        }
+        if (lastScoreCursor.moveToFirst()) {
+            dbWrite.update("scorestable", lastScoreRow, "id=?", new String[]{"lastscore"});
+        } else {
+            dbWrite.insert("scorestable", null, lastScoreRow);
+        }
+    }
+
     public class RoundComplete extends AsyncTask<Integer, Integer, Double> {
 
         @Override
         protected Double doInBackground(Integer... integers) {
+            SystemClock.sleep(200);
+            sounds[9].start();
             publishProgress(2, green);
             SystemClock.sleep(1000);
             publishProgress(0, blue);

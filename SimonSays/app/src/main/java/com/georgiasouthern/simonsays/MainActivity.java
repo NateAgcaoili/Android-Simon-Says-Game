@@ -17,13 +17,11 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
-    MediaPlayer mp;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
         setContentView(R.layout.activity_main);
-        mp = MediaPlayer.create(this, R.raw.button_one);
     }
 
     public void playClick(View view) {
@@ -32,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void testClick(View view) {
-        mp.start();
+        Intent intent = new Intent(this, ScoresActivity.class);
+        startActivity(intent);
     }
 }

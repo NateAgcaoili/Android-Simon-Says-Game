@@ -131,7 +131,7 @@ public class GameActivity extends AppCompatActivity {
         message.setVisibility(View.INVISIBLE);
         //roundDisplay.setVisibility(View.INVISIBLE);
         roundDisplay.setGravity(Gravity.CENTER);
-        //roundDisplay.setText("Score: " + currentRound);
+        roundDisplay.setText("Score: " + currentRound);
         playAgain.setVisibility(ImageButton.VISIBLE);
         mainMenu.setVisibility(ImageButton.VISIBLE);
         updateScores();

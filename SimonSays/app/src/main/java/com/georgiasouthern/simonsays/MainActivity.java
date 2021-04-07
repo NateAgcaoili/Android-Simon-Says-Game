@@ -3,17 +3,8 @@ package com.georgiasouthern.simonsays;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.media.MediaPlayer;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.view.View;
-import android.widget.Button;
-
-import java.util.ArrayList;
-import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -29,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void testClick(View view) {
+    public void scoresClick(View view) {
         Intent intent = new Intent(this, ScoresActivity.class);
         startActivity(intent);
     }

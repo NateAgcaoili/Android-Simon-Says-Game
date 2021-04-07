@@ -129,12 +129,11 @@ public class GameActivity extends AppCompatActivity {
             gameButtons[i].setBackgroundColor(red);
         }
         message.setVisibility(View.INVISIBLE);
-        //roundDisplay.setVisibility(View.INVISIBLE);
         roundDisplay.setGravity(Gravity.CENTER);
         roundDisplay.setText("Score: " + currentRound);
         playAgain.setVisibility(ImageButton.VISIBLE);
         mainMenu.setVisibility(ImageButton.VISIBLE);
-        updateScores();
+        updateScoresDatabase();
         toggleButtons();
         setActivityBackground(backgrounds[1]);
     }
@@ -159,17 +158,13 @@ public class GameActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void updateScores() {
+    public void updateHighScore() {
         SQLiteDatabase dbWrite = helper.getWritableDatabase();
         SQLiteDatabase dbRead = helper.getReadableDatabase();
         ContentValues highScoreRow = new ContentValues();
         highScoreRow.put("id", "highscore");
         highScoreRow.put("val", Integer.toString(currentRound));
-        ContentValues lastScoreRow = new ContentValues();
-        lastScoreRow.put("id", "lastscore");
-        lastScoreRow.put("val", Integer.toString(currentRound));
         Cursor highScoreCursor = dbRead.rawQuery("select * from scorestable where id=?", new String[]{"highscore"});
-        Cursor lastScoreCursor = dbRead.rawQuery("select * from scorestable where id=?", new String[]{"lastscore"});
         if (highScoreCursor.moveToFirst()) {
             if (Integer.parseInt(highScoreCursor.getString(1)) < currentRound) {
                 dbWrite.update("scorestable", highScoreRow, "id=?", new String[]{"highscore"});
@@ -177,11 +172,72 @@ public class GameActivity extends AppCompatActivity {
         } else {
             dbWrite.insert("scorestable", null, highScoreRow);
         }
+    }
+
+    public void updateAverageScore() {
+        System.out.println("trying average");
+        int totalScore = currentRound;
+        int totalRounds = 1;
+        SQLiteDatabase dbWrite = helper.getWritableDatabase();
+        SQLiteDatabase dbRead = helper.getReadableDatabase();
+        ContentValues averageScoreRow = new ContentValues();
+        averageScoreRow.put("id", "averagescore");
+        Cursor averageScoreCursor = dbRead.rawQuery("select * from scorestable where id=?", new String[]{"averagescore"});
+        if (averageScoreCursor.moveToFirst()) {
+            totalScore += Integer.parseInt(averageScoreCursor.getString(1));
+            totalRounds += Integer.parseInt(averageScoreCursor.getString(2));
+            averageScoreRow.put("val", Integer.toString(totalScore));
+            averageScoreRow.put("val2", Integer.toString(totalRounds));
+            dbWrite.update("scorestable", averageScoreRow, "id=?", new String[]{"averagescore"});
+            System.out.println("updated");
+        } else {
+            averageScoreRow.put("val", Integer.toString(totalScore));
+            averageScoreRow.put("val2", Integer.toString(totalRounds));
+            dbWrite.insert("scorestable", null, averageScoreRow);
+            System.out.println("inserted");
+        }
+    }
+
+    public void updateRecentScore() {
+        SQLiteDatabase dbWrite = helper.getWritableDatabase();
+        SQLiteDatabase dbRead = helper.getReadableDatabase();
+        ContentValues lastScoreRow = new ContentValues();
+        lastScoreRow.put("id", "lastscore");
+        lastScoreRow.put("val", Integer.toString(currentRound));
+        Cursor lastScoreCursor = dbRead.rawQuery("select * from scorestable where id=?", new String[]{"lastscore"});
         if (lastScoreCursor.moveToFirst()) {
             dbWrite.update("scorestable", lastScoreRow, "id=?", new String[]{"lastscore"});
         } else {
             dbWrite.insert("scorestable", null, lastScoreRow);
         }
+    }
+
+    public void updateScoresDatabase() {
+//        SQLiteDatabase dbWrite = helper.getWritableDatabase();
+//        SQLiteDatabase dbRead = helper.getReadableDatabase();
+//        ContentValues highScoreRow = new ContentValues();
+//        highScoreRow.put("id", "highscore");
+//        highScoreRow.put("val", Integer.toString(currentRound));
+//        ContentValues lastScoreRow = new ContentValues();
+//        lastScoreRow.put("id", "lastscore");
+//        lastScoreRow.put("val", Integer.toString(currentRound));
+//        Cursor highScoreCursor = dbRead.rawQuery("select * from scorestable where id=?", new String[]{"highscore"});
+//        Cursor lastScoreCursor = dbRead.rawQuery("select * from scorestable where id=?", new String[]{"lastscore"});
+//        if (highScoreCursor.moveToFirst()) {
+//            if (Integer.parseInt(highScoreCursor.getString(1)) < currentRound) {
+//                dbWrite.update("scorestable", highScoreRow, "id=?", new String[]{"highscore"});
+//            }
+//        } else {
+//            dbWrite.insert("scorestable", null, highScoreRow);
+//        }
+//        if (lastScoreCursor.moveToFirst()) {
+//            dbWrite.update("scorestable", lastScoreRow, "id=?", new String[]{"lastscore"});
+//        } else {
+//            dbWrite.insert("scorestable", null, lastScoreRow);
+//        }
+        updateHighScore();
+        updateRecentScore();
+        updateAverageScore();
     }
 
     public class RoundComplete extends AsyncTask<Integer, Integer, Double> {

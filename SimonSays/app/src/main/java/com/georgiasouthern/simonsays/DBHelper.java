@@ -11,7 +11,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table scorestable (id text primary key, val text)");
+        db.execSQL("create table scorestable (id text primary key, val text, val2 text)");
     }
 
     @Override

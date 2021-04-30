@@ -15,6 +15,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
+    @Override
+    public void onBackPressed() {
+
+    }
+
     public void playClick(View view) {
         Intent intent = new Intent(this, GameActivity.class);
         startActivity(intent);
@@ -24,4 +29,5 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, ScoresActivity.class);
         startActivity(intent);
     }
+
 }

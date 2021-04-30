@@ -19,4 +19,9 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL("drop table if exists scorestable");
         onCreate(db);
     }
+
+    public Integer deleteData(String id) {
+        SQLiteDatabase dbWrite = this.getWritableDatabase();
+        return dbWrite.delete("scorestable", "ID = ?", new String[] {id});
+    }
 }

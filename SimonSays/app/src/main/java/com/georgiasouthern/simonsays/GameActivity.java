@@ -213,28 +213,6 @@ public class GameActivity extends AppCompatActivity {
     }
 
     public void updateScoresDatabase() {
-//        SQLiteDatabase dbWrite = helper.getWritableDatabase();
-//        SQLiteDatabase dbRead = helper.getReadableDatabase();
-//        ContentValues highScoreRow = new ContentValues();
-//        highScoreRow.put("id", "highscore");
-//        highScoreRow.put("val", Integer.toString(currentRound));
-//        ContentValues lastScoreRow = new ContentValues();
-//        lastScoreRow.put("id", "lastscore");
-//        lastScoreRow.put("val", Integer.toString(currentRound));
-//        Cursor highScoreCursor = dbRead.rawQuery("select * from scorestable where id=?", new String[]{"highscore"});
-//        Cursor lastScoreCursor = dbRead.rawQuery("select * from scorestable where id=?", new String[]{"lastscore"});
-//        if (highScoreCursor.moveToFirst()) {
-//            if (Integer.parseInt(highScoreCursor.getString(1)) < currentRound) {
-//                dbWrite.update("scorestable", highScoreRow, "id=?", new String[]{"highscore"});
-//            }
-//        } else {
-//            dbWrite.insert("scorestable", null, highScoreRow);
-//        }
-//        if (lastScoreCursor.moveToFirst()) {
-//            dbWrite.update("scorestable", lastScoreRow, "id=?", new String[]{"lastscore"});
-//        } else {
-//            dbWrite.insert("scorestable", null, lastScoreRow);
-//        }
         updateHighScore();
         updateRecentScore();
         updateAverageScore();
@@ -272,9 +250,9 @@ public class GameActivity extends AppCompatActivity {
         protected Double doInBackground(Integer... integers) {
             addToSequence();
             for (int i = 0; i < simonSequence.size(); i++) {
-                SystemClock.sleep(500);
+                SystemClock.sleep(400);
                 publishProgress(i, Color.WHITE);
-                SystemClock.sleep(500);
+                SystemClock.sleep(400);
                 publishProgress(i, blue);
             }
             return null;

@@ -1,11 +1,16 @@
 package com.georgiasouthern.simonsays;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class ScoresActivity extends AppCompatActivity {
 
@@ -41,5 +46,32 @@ public class ScoresActivity extends AppCompatActivity {
             recentScoreDisplay.setText("N/A");
         }
 
+    }
+
+    @Override
+    public void onBackPressed() {
+
+    }
+
+    public void menuClick(View view) {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+
+    public void resetClick(View view) {
+        new AlertDialog.Builder(this)
+                .setTitle("Reset Scores")
+                .setMessage("Are you sure you would like to reset your scores?")
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setPositiveButton("RESET", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        helper.deleteData("highscore");
+                        helper.deleteData("averagescore");
+                        helper.deleteData("lastscore");
+                        Toast.makeText(ScoresActivity.this, "Scores Reset", Toast.LENGTH_SHORT).show();
+                        Intent intent = getIntent();
+                        startActivity(intent);
+                    }})
+                .setNegativeButton(android.R.string.no, null).show();
     }
 }

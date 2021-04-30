@@ -49,4 +49,36 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageButton
+        android:id="@+id/playButton2"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="125dp"
+        android:layout_height="70dp"
+        android:onClick="resetClick"
+        android:padding="2dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.748"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.96"
+        app:srcCompat="@drawable/reset_btn" />
+
+    <ImageButton
+        android:id="@+id/mainMenuButton2"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="125dp"
+        android:layout_height="70dp"
+        android:onClick="menuClick"
+        android:padding="2dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.244"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.962"
+        app:srcCompat="@drawable/menu_btn2" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

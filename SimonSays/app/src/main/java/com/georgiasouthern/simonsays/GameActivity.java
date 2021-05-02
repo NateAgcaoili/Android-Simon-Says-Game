@@ -21,6 +21,9 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * @author Nate Agcaoili
+ */
 
 public class GameActivity extends AppCompatActivity {
 

@@ -44,6 +44,7 @@
         style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="188dp"
         android:layout_height="74dp"
+        android:onClick="aboutClick"
         android:padding="2dp"
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"

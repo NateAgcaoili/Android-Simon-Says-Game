@@ -55,7 +55,7 @@
                 android:id="@+id/textView8"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="My name is Nate Agcaoili and I am a junior Computer Science major at Georgia Southern University.  In the spring semester of 2021, I took a course offered by GSU titled Handled/Ubiquitous Computing.  Under the instruction of Dr. Hong Zhang, I learned about the development lifestyle of Android applications using Android Studio as the Integrated Development Environment and Java as the primary programming language.  I decided to begin the development process of Simon Says when it was announced that the course final would be to create an Android app that demonstrates what we have learned throughout the course.  Simon Says utilizes Multithreading via AsyncTask, database functionality via SQLite, and many other key aspects of mobile app development."
+                android:text="My name is Nate Agcaoili and I am a junior Computer Science major at Georgia Southern University.  In the spring semester of 2021, I took a course offered by GSU titled Handled/Ubiquitous Computing.  Under the instruction of Dr. Hong Zhang, I learned about the development lifecycle of Android applications using Android Studio as the Integrated Development Environment and Java as the primary programming language.  I decided to begin the development process of Simon Says when it was announced that the course final would be to create an Android app that demonstrates what we have learned throughout the course.  Simon Says utilizes Multithreading via AsyncTask, database functionality via SQLite, and many other key aspects of mobile app development."
                 android:textColor="@color/white"
                 android:textSize="18sp" />
 
@@ -104,14 +104,14 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:id="@+id/imageView"
+                    android:id="@+id/imageView3"
                     android:layout_width="261dp"
                     android:layout_height="130dp"
                     android:layout_weight="1"
                     app:srcCompat="@drawable/photoshop_icon" />
 
                 <ImageView
-                    android:id="@+id/imageView2"
+                    android:id="@+id/imageView4"
                     android:layout_width="wrap_content"
                     android:layout_height="129dp"
                     android:layout_weight="1"
@@ -125,6 +125,34 @@
                 android:text="All image and audio assets are original contributions by me.  All images were created using Adobe Photoshop and audio from the game were created in FL Studio."
                 android:textColor="@color/white"
                 android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autoText="false"
+                android:gravity="center"
+                android:text="Learn More"
+                android:textColor="@color/theme_blue"
+                android:textSize="30sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Source code and documentation for this application is available on my GitHub. (Linked below)"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+
+            <ImageButton
+                android:id="@+id/imageButton"
+                android:layout_width="match_parent"
+                android:layout_height="78dp"
+                android:padding="2dp"
+                android:onClick="repositoryClick"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/github_btn" />
 
         </LinearLayout>
     </ScrollView>
